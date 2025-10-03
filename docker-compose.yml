@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  smartmailer:
+    build: .
+    container_name: smartmailer
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/app/logs
+      - ./smartmailer.db:/app/smartmailer.db
+      - ./templates:/app/templates
+    environment:
+      - EMAIL_PROVIDER=${EMAIL_PROVIDER:-gmail}
+      - EMAIL_ADDRESS=${EMAIL_ADDRESS}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_IMAP_SERVER=${EMAIL_IMAP_SERVER:-imap.gmail.com}
+      - EMAIL_IMAP_PORT=${EMAIL_IMAP_PORT:-993}
+      - EMAIL_SMTP_SERVER=${EMAIL_SMTP_SERVER:-smtp.gmail.com}
+      - EMAIL_SMTP_PORT=${EMAIL_SMTP_PORT:-587}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./smartmailer.db}
+      - APP_NAME=${APP_NAME:-SmartMailer}
+      - APP_VERSION=${APP_VERSION:-1.0.0}
+      - DEBUG=${DEBUG:-False}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - CHECK_INTERVAL_MINUTES=${CHECK_INTERVAL_MINUTES:-5}
+      - MAX_EMAILS_PER_BATCH=${MAX_EMAILS_PER_BATCH:-50}
+      - PROCESSING_TIMEOUT_SECONDS=${PROCESSING_TIMEOUT_SECONDS:-300}
+      - IMPORTANT_KEYWORDS=${IMPORTANT_KEYWORDS:-urgent,important,entretien,rh,recrutement,deadline,asap}
+      - IMPORTANT_SENDERS=${IMPORTANT_SENDERS:-}
+      - NORMAL_KEYWORDS=${NORMAL_KEYWORDS:-newsletter,marketing,promotion,publicité}
+      - AUTO_REPLY_ENABLED=${AUTO_REPLY_ENABLED:-True}
+      - AUTO_REPLY_SUBJECT=${AUTO_REPLY_SUBJECT:-Re: {original_subject}}
+      - AUTO_REPLY_TEMPLATE=${AUTO_REPLY_TEMPLATE:-auto_reply_template.html}
+    networks:
+      - smartmailer-network
+
+  # Optional: PostgreSQL for production (V2)
+  # postgres:
+  #   image: postgres:15
+  #   container_name: smartmailer-postgres
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: smartmailer
+  #     POSTGRES_USER: smartmailer
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - smartmailer-network
+
+  # Optional: Redis for Celery (V2)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: smartmailer-redis
+  #   restart: unless-stopped
+  #   networks:
+  #     - smartmailer-network
+
+networks:
+  smartmailer-network:
+    driver: bridge
+
+# volumes:
+#   postgres_data:

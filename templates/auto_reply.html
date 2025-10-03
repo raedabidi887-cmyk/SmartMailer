@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Réponse automatique</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #2c3e50;">Merci pour votre message</h2>
+        
+        <p>Bonjour,</p>
+        
+        <p>J'ai bien reçu votre email concernant <strong>"{{ original_subject }}"</strong>.</p>
+        
+        <p>Je vous remercie de m'avoir contacté. Je traiterai votre demande dans les plus brefs délais.</p>
+        
+        <p>Si votre demande est urgente, n'hésitez pas à me contacter par téléphone.</p>
+        
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+        
+        <p style="font-size: 12px; color: #666;">
+            <em>Ce message a été envoyé automatiquement par SmartMailer.</em><br>
+            <em>Date de réception: {{ received_date }}</em>
+        </p>
+        
+        <p>Cordialement,<br>
+        {{ sender_name }}</p>
+    </div>
+</body>
+</html>
