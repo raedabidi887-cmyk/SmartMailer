@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+# SmartMailer
+SmartMailer automatise la gestion des emails : il classe les messages, répond automatiquement aux emails normaux via templates, notifie sur Telegram pour les emails importants et stocke l’historique de tous les emails traités.
+
+
+>>>>>>> e59f06796a3f4b3890ce7d42e98df4219a03ed05
 # SmartMailer - Application intelligente de gestion d'emails
 
 ## 📧 Description
